@@ -10,11 +10,12 @@ cooperating parties.
 "A claim" is nothing more than an asserted statement. For example, "the sky is clear" is
 a claim. A JWT wraps up a set of one or more claims, with a digital signature.
 
-The system or participant that creates the JWT is called "the issuer" (iss). JWT _can
-be_ issued with the intention that they are decoded and read by a particular system,
-known as "the audience" (aud).  The JWT specification also provides a way to designate
-the valid times for a token - the issued-at time (iat), the not-before time (nbf), and
-the expiry time (exp). The times are all expressed in seconds-since-epoch.
+There are some "standard" claim names with well-known meanings.
+The system or participant that creates the JWT is called "the issuer" (iss). JWT _can_
+include an assertion about the intended reader of the JWT - via  "the
+audience" claim (aud).  The JWT specification also provides a way to designate the valid times
+for a token - the issued-at time (iat), the not-before time (nbf), and the expiry time
+(exp). The times are all expressed in seconds-since-epoch.
 
 Typically, JWT are issued about a person or system, known as "the subject"
 (sub). Accordingly, claims are most often about systems or people, rather than the
@@ -22,8 +23,8 @@ weather. For example, a typical claim as stated in English might be "the userid 
 012345".
 
 All the "standard claims" such as sub, aud, exp, as well as custom claims like "userid"
-are optional. Each system that generates JWT can stipulatye which claims to include;
-each system that verifies JWT can include logic to require specific claims.
+are optional. Each system that generates JWT can stipulate which claims to include;
+each system that verifies JWT can include logic to require specific values for specific claims.
 
 ## The Construction of a JWT
 
@@ -53,33 +54,47 @@ The JWT "header" is a hash, which typically indicates some basic information suc
 
 This, too, is serialized into a compact JSON form, then base64-encoded.
 
-The dot-concatenation of the header and the payload is then signed, and the signature is then base64-encoded. These two parts - the signing base (which itself has two parts) and the actual signature are then concatenated to form a JWT.
+The dot-concatenation of the header and the payload is then signed, and the signature is then base64-encoded. These two parts - the signing base (which itself has two parts) and the actual signature are then dot concatenated to form a JWT. The form is `base64(header).base64(payload).base64(signature)`.
 
 This is what a JWT looks like:
 
 ```
 eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ.akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q
 ```
+In the above, the header is:
+`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9`
+
+The payload is:
+`eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ`
+
+The signature is:
+`akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q`
+
+[JWT.io](https://jwt.io) hosts a useful online form that allows you to decode JWT interactively.
+
 
 ## Usefulness of JWT
 
 JWT are useful for capturing claims about a person or system, and transmitting them in a
-standard way, such that a cooperating system can verify those claims.  Verification
-consists of verifying the digital signature, then evaluating the claims within the
-payload and header.
+standard way, such that a cooperating system can verify those claims. Verification
+consists of verifying the digital signature, then evaluating the claims, within the
+payload and header. If the signature is good, then the claims can be trusted.
 
 A common example would be an identity provider - that is, a system that can authenticate
 users.  When a user provides the correct authentication, the identity provider may issue
 a JWT, which includes statements about the user. This JWT can then be verified by any
-other system. Let's call the system that examines and verifies a JWT, a "relying party".
-If the relying party trusts the identity provider, then the RP can rely on the claims
-about the user, contained within the JWT.
+other system that has access to the public key of the IdP. Let's call the system that
+examines and verifies a JWT, a "relying party".  If the relying party trusts the
+identity provider - in other words trusts that the public key belongs to the IdP - then
+the RP can rely on the claims about the user, contained within the JWT. The RP can then
+make decisions based on the value of those claims - decisions regarding authorization,
+or routing, and so on.
 
 
 ## JWT within Apigee Edge
 
 People configuring smart API proxies in Apigee Edge may want those proxies to verify or
-generate JWT.  In late 2017, Apigee added JWT policies into the Apigee Edge product to
+generate JWT. In late 2017, Apigee added JWT policies into the Apigee Edge product to
 enable these scenarios. Specifically, there are now policies in Apigee Edge that you can
 use to generate or verify JWT using either Hmac or RSA signatures, in 256, 384, or
 512-bit strength.  (HS256, HS384, HS512, RS256, RS384, RS512).
@@ -99,7 +114,6 @@ It is possible to use Apigee Edge policies to:
 
 ## License
 
-This material is copyright 2017 Google Inc.
+This material is Copyright 2017 Google Inc.
 and is licensed under the [Apache 2.0 License](LICENSE).
-
 
