@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<GenerateJWT async="false" continueOnError="false" enabled="true" name="Generate-JWT-2">
+<GenerateJWT name="Generate-JWT-2">
     <DisplayName>Generate JWT-2</DisplayName>
     <Algorithm>HS256</Algorithm>
     <SecretKey>

@@ -1,0 +1,16 @@
+<APIProxy revision="1" name="jwt-verify-goog">
+    <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+    <Description>A proxy that validates JWT signed by Google Sign-in</Description>
+    <CreatedAt>1408643295583</CreatedAt>
+    <CreatedBy>DChiesa@google.com</CreatedBy>
+    <DisplayName>jwt-verify-goog</DisplayName>
+    <LastModifiedAt>1481862518324</LastModifiedAt>
+    <LastModifiedBy>DChiesa@google.com</LastModifiedBy>
+    <Policies/>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <TargetServers/>
+    <TargetEndpoints/>
+</APIProxy>

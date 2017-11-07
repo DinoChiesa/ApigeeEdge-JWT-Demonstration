@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <APIProxy revision="3" name="jwt-generate">
     <Basepaths>/jwt-1</Basepaths>
     <ConfigurationVersion majorVersion="4" minorVersion="0"/>

@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2017-November-06 19:54:40>
+// last saved: <2017-November-07 14:19:45>
 
 var version = '20171106-1714',
     jwt = require('jsonwebtoken'),
@@ -47,11 +47,11 @@ if ( ! key) {
   process.exit(1);
 }
 var claims = { };
-if ( ! opt.options.noNbf) { claims.nbf = now; }
-if ( ! opt.options.noIat) { claims.iat = now; }
-if ( opt.options.sub) { claims.sub = opt.options.sub; }
-if ( opt.options.iss) { claims.iss = opt.options.iss; }
-if ( opt.options.aud) { claims.aud = opt.options.aud; }
+if (! opt.options.noNbf) { claims.nbf = now; }
+if (! opt.options.noIat) { claims.iat = now; }
+if (opt.options.sub) { claims.sub = opt.options.sub; }
+if (opt.options.iss) { claims.iss = opt.options.iss; }
+if (opt.options.aud) { claims.aud = opt.options.aud; }
 if (opt.options.exp) {
   claims.exp = now + parseInt(opt.options.exp);
 }
@@ -75,5 +75,5 @@ if (opt.options.claim) {
 var token = jwt.sign(claims, key, { algorithm: opt.options.alg });
 console.log('JWT:\n' + token);
 
-var decoded = myJwtDecode(token); // jwt.decode(token); Does not decode header
+var decoded = myJwtDecode(token); // jwt.decode(token); Does not decode the header
 console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));

@@ -1,0 +1,12 @@
+<PopulateCache name='CacheInsert-GoogleJwks'>
+  <CacheResource>cache1</CacheResource>
+  <Source>googJwksResponse.content</Source>
+  <Scope>Application</Scope>
+  <CacheKey>
+    <Prefix>googjwks</Prefix>
+    <KeyFragment>1</KeyFragment>
+  </CacheKey>
+  <ExpirySettings>
+    <TimeoutInSec>3600</TimeoutInSec>
+  </ExpirySettings>
+</PopulateCache>

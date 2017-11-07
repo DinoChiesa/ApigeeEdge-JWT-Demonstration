@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <AssignMessage name="AM-Response-3">
     <!-- <AssignTo createNew='false' transport='http' type='response'></AssignTo> -->
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>

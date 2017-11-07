@@ -1,0 +1,9 @@
+<LookupCache name='CacheLookup-GoogleJwks'>
+  <CacheResource>cache1</CacheResource>
+  <AssignTo>cached.google.jwks</AssignTo>
+  <Scope>Application</Scope>
+  <CacheKey>
+    <Prefix>googjwks</Prefix>
+    <KeyFragment>1</KeyFragment>
+  </CacheKey>
+</LookupCache>

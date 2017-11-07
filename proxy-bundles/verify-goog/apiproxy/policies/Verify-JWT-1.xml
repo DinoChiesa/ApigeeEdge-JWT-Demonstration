@@ -1,0 +1,8 @@
+<VerifyJWT name="Verify-JWT-1">
+    <Algorithm>RS256</Algorithm>
+    <Source>inbound.jwt</Source>
+    <PublicKey>
+      <JWKS ref='cached.google.jwks'/>
+    </PublicKey>
+    <Issuer>https://accounts.google.com</Issuer>
+</VerifyJWT>

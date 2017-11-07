@@ -1,0 +1,14 @@
+<ServiceCallout name='SC-RetrieveGoogleJwks'>
+  <Request>
+    <Set>
+      <Verb>GET</Verb>
+    </Set>
+  </Request>
+  <Response>googJwksResponse</Response>
+  <HTTPTargetConnection>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://www.googleapis.com/oauth2/v3/certs</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

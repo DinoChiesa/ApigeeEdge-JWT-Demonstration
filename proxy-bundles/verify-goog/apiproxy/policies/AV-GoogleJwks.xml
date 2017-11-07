@@ -1,0 +1,7 @@
+<AssignMessage name='AV-GoogleJwks'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+   <Name>cached.google.jwks</Name>
+    <Ref>googJwksResponse.content</Ref>
+  </AssignVariable>
+</AssignMessage>
