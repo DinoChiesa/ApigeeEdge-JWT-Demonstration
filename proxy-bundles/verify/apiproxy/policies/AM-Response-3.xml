@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Response-3">
+    <!-- <AssignTo createNew='false' transport='http' type='response'></AssignTo> -->
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <Set>
+        <Payload contentType="application/json">{
+  "status" : "ok",
+  "algorithm" : "{jwt.Verify-JWT-3.algorithm}",
+  "claim_names" : "{jwt.Verify-JWT-3.payload-claim-names}",
+  "subject" : "{jwt.Verify-JWT-3.subject}",
+  "issuer" : "{jwt.Verify-JWT-3.issuer}",
+  "audience" : "{jwt.Verify-JWT-3.audience}",
+  "expiry" : "{jwt.Verify-JWT-3.expiry_formatted}",
+  "out.now" : "{outbound.now}",
+  "seconds_remaining" : {jwt.Verify-JWT-3.seconds_remaining}
+}</Payload>
+        <StatusCode>200</StatusCode>
+        <ReasonPhrase>OK</ReasonPhrase>
+    </Set>
+</AssignMessage>

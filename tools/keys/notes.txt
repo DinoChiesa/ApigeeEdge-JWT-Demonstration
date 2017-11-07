@@ -1,0 +1,17 @@
+Monday,  6 November 2017, 12:35
+
+The keys here are for demonstration purposes only.
+
+To use openssl to create a keypair:
+
+# generate the key pair in RSA format (PKCS#1) without encryption
+openssl genrsa -out private.pem 2048
+
+# convert the above to PKCS#8 format:
+openssl pkcs8 -topk8 -inform pem -in private.pem -outform pem -nocrypt -out private-pkcs8.pem
+
+# extract the public key from that: 
+openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+
+
+

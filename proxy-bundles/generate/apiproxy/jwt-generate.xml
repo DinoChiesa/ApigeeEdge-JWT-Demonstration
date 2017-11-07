@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="3" name="jwt-generate">
+    <Basepaths>/jwt-1</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1510024978294</CreatedAt>
+    <CreatedBy>dchiesa+2@apigee.com</CreatedBy>
+    <Description>Generate a JWT</Description>
+    <DisplayName>jwt-generate</DisplayName>
+    <LastModifiedAt>1510024978294</LastModifiedAt>
+    <LastModifiedBy>dchiesa+2@apigee.com</LastModifiedBy>
+    <Policies>
+        <Policy>AM-ClearResponseHeaders</Policy>
+        <Policy>AM-PrivateKey</Policy>
+        <Policy>AM-Response-1</Policy>
+        <Policy>AM-SecretKey</Policy>
+        <Policy>Generate-JWT-1</Policy>
+        <Policy>Generate-JWT-2</Policy>
+        <Policy>RF-MissingParam</Policy>
+        <Policy>RF-UnknownRequest</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints/>
+</APIProxy>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-Response-1">
+    <!-- <AssignTo createNew='false' transport='http' type='response'></AssignTo> -->
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <Set>
+        <Payload contentType="application/json">{
+  "status" : "ok",
+  "jwt" : "{output-jwt}"
+}</Payload>
+        <StatusCode>200</StatusCode>
+        <ReasonPhrase>OK</ReasonPhrase>
+    </Set>
+</AssignMessage>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description>Proxy endpoint for demonstrating JWT</Description>
+    <FaultRules/>
+    <PreFlow name="PreFlow">
+        <Request/>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>AM-ClearResponseHeaders</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <Flows>
+        <Flow name="Flow-1">
+            <!--
+            invoke:
+            curl -i -X POST https://ORG-ENV.apigee.net/jwt-generate/t1  -d 'subject=Subject&audience=A12345'
+            -->
+            <Description>Generate a JWT with RS256, and embed a subject and an audience within it</Description>
+            <Request>
+                <Step>
+                    <Condition>request.formparam.subject = null OR request.formparam.audience = null</Condition>
+                    <Name>RF-MissingParam</Name>
+                </Step>
+                <Step>
+                    <Name>AM-PrivateKey</Name>
+                </Step>
+                <Step>
+                    <Name>Generate-JWT-1</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>AM-Response-1</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="Flow-2">
+            <!--
+            invoke:
+            curl -i -X POST https://ORG-ENV.apigee.net/jwt-generate/t2  -d 'subject=Subject&audience=A12345'
+            -->
+            <Description>Generate a JWT with HS256, and embed a subject and an audience within it</Description>
+            <Request>
+                <Step>
+                    <Condition>request.formparam.subject = null OR request.formparam.audience = null</Condition>
+                    <Name>RF-MissingParam</Name>
+                </Step>
+                <Step>
+                    <Name>AM-SecretKey</Name>
+                </Step>
+                <Step>
+                    <Name>Generate-JWT-2</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>AM-Response-1</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/t2") and (request.verb = "POST")</Condition>
+        </Flow>
+        <Flow name="unknown request">
+            <Request>
+                <Step>
+                    <Name>RF-UnknownRequest</Name>
+                </Step>
+            </Request>
+            <Response/>
+        </Flow>
+    </Flows>
+    <HTTPProxyConnection>
+        <BasePath>/jwt-generate</BasePath>
+        <Properties/>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="noroute"/>
+</ProxyEndpoint>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault name="RF-InvalidToken">
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json">{
+  "error" : {
+    "code" : 401.01,
+    "message" : "Unauthorized; no further information is available."
+  }
+}
+</Payload>
+            <StatusCode>401</StatusCode>
+            <ReasonPhrase>Unauthorized</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+</RaiseFault>
