@@ -28,7 +28,21 @@ each system that verifies JWT can include logic to require specific values for s
 
 ## The Construction of a JWT
 
-Claims are first represented as a JSON hash. For example:
+The signing base for the JWT consists of the base64-encoded version of the header, followed by a dot, followed by the base64-encoded version of the payload.
+The form is `base64(header).base64(payload)`.
+
+The JWT "header" is a hash, which typically indicates some basic information such as the algorithm used for signing.
+
+```json
+{
+    "alg": "RS256",
+    "typ": "JWT"
+}
+```
+
+The header may contain other claims, as well.
+
+The payload is also represented as a JSON hash. For example:
 
 ```json
 {
@@ -42,21 +56,14 @@ Claims are first represented as a JSON hash. For example:
 }
 ```
 
-Then, the JWT spec says that hash should be serialized in compact form, then base64-encoded. This becomes the JWT payload.
-The JWT "header" is a hash, which typically indicates some basic information such as the algorith used for signing.
 
-```json
-{
-    "alg": "RS256",
-    "typ": "JWT"
-}
-```
+Each of those - the header and payload - must be serialized in compact form, then base64-encoded. The dot-concatenation of those two pieces forms the signing base for the JWT.
 
-This, too, is serialized into a compact JSON form, then base64-encoded.
+Compute the digital signature of the signing base, and then base64-encode it. Then dot-concatenate that to the signing base to obtain the JWT.
+The form is `base64(header).base64(payload).base64(signature)`.
 
-The dot-concatenation of the header and the payload is then signed, and the signature is then base64-encoded. These two parts - the signing base (which itself has two parts) and the actual signature are then dot concatenated to form a JWT. The form is `base64(header).base64(payload).base64(signature)`.
 
-This is what a JWT looks like:
+This is what an actual JWT looks like:
 
 ```
 eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ.akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q
@@ -65,10 +72,14 @@ In the above, the header is:
 `eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9`
 
 The payload is:
-`eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ`
+```
+eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ
+```
 
 The signature is:
-`akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q`
+```
+akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q
+```
 
 [JWT.io](https://jwt.io) hosts a useful online form that allows you to decode JWT interactively.
 
