@@ -127,9 +127,11 @@ It is possible to use Apigee Edge policies to:
 ## Contents of this Repo
 
 * Two [API Proxy bundles](./proxy-bundles)
-  - [jwt-verify](./proxy-bundles/verify)
-  - [jwt-generate](./proxy-bundles/generate)
+  - [jwt-verify](./proxy-bundles/verify) - an API Proxy bundle that verifies JWT
+  - [jwt-generate](./proxy-bundles/generate) - an API Proxy bundle that generates JWT
 * Various [helper tools](./tools)
+
+To use the API proxies, you will need to import and deploy them into an Apigee Edge organization and environment. 
 
 
 ## License
