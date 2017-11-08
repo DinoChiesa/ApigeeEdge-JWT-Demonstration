@@ -15,7 +15,7 @@
   <Flows>
 
     <Flow name="parse + validate a JWT obtained from Google Sign-in">
-      <Condition>(proxy.pathsuffix =| "/t1") and (request.verb = "POST")</Condition>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "GET")</Condition>
       <Description>Parse / Verify a JWT created by Google Sign-in</Description>
       <Request>
         <Step>

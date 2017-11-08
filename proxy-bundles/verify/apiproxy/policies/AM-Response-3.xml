@@ -10,8 +10,8 @@
   "issuer" : "{jwt.Verify-JWT-3.issuer}",
   "audience" : "{jwt.Verify-JWT-3.audience}",
   "expiry" : "{jwt.Verify-JWT-3.expiry_formatted}",
-  "out.now" : "{outbound.now}",
-  "seconds_remaining" : {jwt.Verify-JWT-3.seconds_remaining}
+  "seconds_remaining" : {jwt.Verify-JWT-3.seconds_remaining},
+  "out.now" : "{outbound.now}"
 }</Payload>
         <StatusCode>200</StatusCode>
         <ReasonPhrase>OK</ReasonPhrase>
