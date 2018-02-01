@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="12" name="jwt-verify-okta">
+    <Basepaths>/jwt-verify-okta</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1517489404127</CreatedAt>
+    <CreatedBy>tom.smith@okta.com</CreatedBy>
+    <Description></Description>
+    <DisplayName>jwt-verify-okta</DisplayName>
+    <LastModifiedAt>1517490164573</LastModifiedAt>
+    <LastModifiedBy>tom.smith@okta.com</LastModifiedBy>
+    <Policies>
+        <Policy>AV-OktaJwks</Policy>
+        <Policy>CacheInsert-OktaJwks</Policy>
+        <Policy>CacheLookup-OktaJwks</Policy>
+        <Policy>EV-JWT</Policy>
+        <Policy>RF-MissingHeader</Policy>
+        <Policy>RF-MissingRequiredScope</Policy>
+        <Policy>RF-TestTokenOK</Policy>
+        <Policy>RF-UnknownRequest</Policy>
+        <Policy>SC-RetrieveOktaJwks</Policy>
+        <Policy>Verify-JWT-1</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+    <validate>false</validate>
+</APIProxy>
