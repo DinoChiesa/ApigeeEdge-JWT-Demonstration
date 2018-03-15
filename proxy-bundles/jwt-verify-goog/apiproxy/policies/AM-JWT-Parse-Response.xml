@@ -10,6 +10,7 @@
   "jwt-id" : "{jwt.Verify-JWT-1.claim.id}",
   "secondsRemaining" : {jwt.Verify-JWT-1.seconds_remaining},
   "timeRemainingFormatted" : "{jwt.Verify-JWT-1.time_remaining_formatted}",
+  "sub" : "{jwt.Verify-JWT-1.claim.sub}",
   "email" : "{jwt.Verify-JWT-1.claim.email}",
   "family_name" : "{jwt.Verify-JWT-1.claim.family_name}",
   "given_name" : "{jwt.Verify-JWT-1.claim.given_name}"
