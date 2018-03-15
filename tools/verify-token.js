@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2017-November-07 14:19:20>
+// last saved: <2018-March-15 16:45:05>
 
 var version = '20171106-1714',
     jwt = require('jsonwebtoken'),
@@ -55,8 +55,11 @@ if (opt.options.aud) { verificationOptions.audience = opt.options.aud; }
 jwt.verify(opt.options.token, key, verificationOptions, function(e, decoded) {
   if (e) {
     console.log('Error while verifying: ' + e);
+    decoded = jwt.decode(opt.options.token, {complete:true});
+    console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));
     process.exit(1);
   }
+  console.log('\nThat token verifies successfully.\n');
   console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));
   if (opt.options.claim) {
     opt.options.claim.forEach((claimString) => {
