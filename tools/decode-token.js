@@ -2,10 +2,10 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2017-November-06 17:47:36>
+// last saved: <2018-March-15 14:09:52>
 
-var version = '20171106-1714',
-    myJwtDecode = require('./myJwtDecode.js'),
+var version = '20180315-1409',
+    jwt = require('jsonwebtoken'),
     Getopt = require('node-getopt'),
     getopt = new Getopt([
       ['t' , 'token=ARG',   'the token in compact form'],
@@ -22,5 +22,6 @@ if ( ! opt.options.token) {
   getopt.showHelp();
   process.exit(1);
 }
-var decoded = myJwtDecode(opt.options.token); // jwt.decode(token); Does not decode header
+
+var decoded = jwt.decode(opt.options.token, {complete:true});
 console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));

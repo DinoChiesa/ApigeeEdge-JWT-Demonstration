@@ -1,0 +1,11 @@
+<AssignMessage name='AM-NoContent'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Remove>
+    <Headers/>
+    <Payload/>
+  </Remove>
+  <Set>
+    <StatusCode>204</StatusCode>
+    <ReasonPhrase>No Content</ReasonPhrase>
+  </Set>
+</AssignMessage>

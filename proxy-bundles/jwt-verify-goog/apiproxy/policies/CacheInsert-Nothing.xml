@@ -1,0 +1,14 @@
+<PopulateCache name='CacheInsert-Nothing'>
+  <CacheResource>cache1</CacheResource>
+  <Source>messageid</Source>
+  <Scope>Application</Scope>
+  <CacheKey>
+    <Prefix>googjwks</Prefix>
+    <KeyFragment>1</KeyFragment>
+  </CacheKey>
+  <ExpirySettings>
+    <!-- will expire in 1 second. This has the side effect of
+         implicitly clearing the cache, "pretty soon". -->
+    <TimeoutInSec>1</TimeoutInSec>
+  </ExpirySettings>
+</PopulateCache>

@@ -1,0 +1,21 @@
+<GenerateJWT name="Generate-JWT-RS256-AdditionalClaims">
+    <Algorithm>RS256</Algorithm>
+    <PrivateKey>
+        <Value ref="private.privatekey"/>
+        <Id>unique-identifier-for-privatekey-here</Id>
+    </PrivateKey>
+    <Id/> <!-- this tells Apigee to generate a unique identifier -->
+    <Subject ref="request.formparam.subject"/>
+    <!-- you can use ref= for the issuer as well -->
+    <Issuer>urn://apigee-edge-JWT-policy-demonstration</Issuer>
+    <Audience ref="request.formparam.audience"/>
+    <ExpiresIn>60m</ExpiresIn>
+    <AdditionalClaims>
+      <Claim name='apigee-proxy' ref='apiproxy.name'/>
+      <Claim name='messageid' ref='messageid'/>
+      <Claim name='request-path' ref='request.path'/>
+      <Claim name='apigee-org' ref='organization.name'/>
+      <Claim name='apigee-env' ref='environment.name'/>
+    </AdditionalClaims>
+    <OutputVariable>output-jwt</OutputVariable>
+</GenerateJWT>

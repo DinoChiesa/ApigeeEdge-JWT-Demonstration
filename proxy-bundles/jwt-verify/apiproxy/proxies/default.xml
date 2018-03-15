@@ -1,0 +1,155 @@
+<ProxyEndpoint name="default">
+    <Description>Proxy endpoint for demonstrating JWT</Description>
+    <FaultRules/>
+    <PreFlow name="PreFlow">
+        <Request/>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <Name>AM-ClearResponseHeaders</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <Flows>
+        <Flow name="RS256-1">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/rs256/1  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with RS256, and implicitly verify the audience within it</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-RS256-Basic</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                  <Name>AM-Response-RS256-Basic</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/rs256/1") and (request.verb = "GET")</Condition>
+        </Flow>
+
+        <Flow name="HS256-1">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/hs256/1  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with HS256, and implicitly verify the audience within it</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>AM-SecretKey</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-HS256-Basic</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                    <Name>AM-Response-HS256-Basic</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/hs256/1") and (request.verb = "GET")</Condition>
+        </Flow>
+
+        <Flow name="RS256-2">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/rs256/2  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with RS256, and implicitly verify the audience AND issuer within it</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-RS256-Audience-and-Issuer</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                    <Name>AM-Response-3</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/rs256/2") and (request.verb = "GET")</Condition>
+        </Flow>
+
+        <Flow name="RS256-3">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/rs256/3  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with RS256, implicitly verify the audience. Then explicitly verify the issuer.</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-RS256-Basic</Name>
+                </Step>
+                <Step>
+                    <Condition>jwt.Verify-JWT-1.issuer != "my-required-issuer"</Condition>
+                    <Name>RF-InvalidToken</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                    <Name>AM-Response-RS256-Basic</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/rs256/3") and (request.verb = "GET")</Condition>
+        </Flow>
+
+        <Flow name="unknown request">
+            <Request>
+                <Step>
+                    <Name>RF-UnknownRequest</Name>
+                </Step>
+            </Request>
+            <Response/>
+        </Flow>
+    </Flows>
+    <HTTPProxyConnection>
+        <BasePath>/jwt-verify</BasePath>
+        <Properties/>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="noroute"/>
+</ProxyEndpoint>

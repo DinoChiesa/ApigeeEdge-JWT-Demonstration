@@ -5,14 +5,17 @@
   "main": "create-token.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "demo-rs256": "node ./create-token.js -A RS256 -i Issuer -s Subject -a Audience -C customClaim1:value1", 
+    "demo-rs256": "node ./create-token.js -A RS256 -i Issuer -s Subject -a Audience -C customClaim1:value1",
     "demo-hs256": "node ./create-token.js -A HS256 -k Secret1234 -i Issuer -s Subject -a Audience -C customClaim1:value1"
   },
   "author": "Dino Chiesa <dchiesa@google.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "apigee-edge-js": "^0.2.24",
     "jsonwebtoken": "^8.0.0",
     "node-getopt": "^0.2.3"
   },
-  "engines" : { "node" : ">=6.0.0" }
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }

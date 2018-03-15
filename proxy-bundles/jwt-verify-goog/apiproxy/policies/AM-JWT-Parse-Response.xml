@@ -1,0 +1,21 @@
+<AssignMessage name='AM-JWT-Parse-Response'>
+  <Description>respond with information about the parsed JWT</Description>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Remove>
+    <Headers/>
+  </Remove>
+  <Set>
+    <Payload contentType='application/json'>{
+  "jwt-kid" : "{jwt.Verify-JWT-1.header.kid}",
+  "jwt-id" : "{jwt.Verify-JWT-1.claim.id}",
+  "secondsRemaining" : {jwt.Verify-JWT-1.seconds_remaining},
+  "timeRemainingFormatted" : "{jwt.Verify-JWT-1.time_remaining_formatted}",
+  "email" : "{jwt.Verify-JWT-1.claim.email}",
+  "family_name" : "{jwt.Verify-JWT-1.claim.family_name}",
+  "given_name" : "{jwt.Verify-JWT-1.claim.given_name}"
+}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+</AssignMessage>

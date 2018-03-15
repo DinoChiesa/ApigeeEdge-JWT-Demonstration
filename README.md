@@ -1,11 +1,16 @@
 # Code supporting the JWT Demonstrations
 
 This repository contains code and configuration supporting the demonstrations of the JWT
-policies in Apigee Edge. JWT is defined in [IETF RFC
-7519](https://tools.ietf.org/html/rfc7519). It is a compact, URL-safe format for
+policies in Apigee Edge. JSON Web Token, aka JWT, is defined in [IETF RFC
+7519](https://tools.ietf.org/html/rfc7519). JWT is a compact, URL-safe format for
 representing *claims* to be transferred between cooperating parties.  Apigee Edge
 includes policies that generate and verify JWT issued by arbitrary parties.
 
+## Disclaimer
+
+The code in this repo is not an official Google product, nor is it part of an
+official Google product. It's a demonstration of the JWT policies in the Apigee
+Edge product.
 
 ## Usefulness of JWT
 
@@ -28,13 +33,12 @@ routing, and so on.
 
 ## JWT One Level Deeper
 
-"A claim" is nothing more than an asserted
-statement. For example, "the sky is clear" is a claim. A JWT wraps up a set of one or
-more claims, with a digital signature, a unique hash of the payload that can be used to
-verify that the payload (the set of claims) has not changed since they were initially
-issued.
+"A claim" is nothing more than an asserted statement. For example, "the sky is
+clear" is a claim. A JWT wraps up a set of one or more claims, with a digital
+signature, a unique hash of the payload that can be used to verify that the
+payload (the set of claims) has not changed since they were initially issued.
 
-In JWT, there are some "standard" claim names with well-known meanings.  The system or
+In JWT, there are some "standard" claim names with well-known meanings. The system or
 participant that creates the JWT is called the _issuer_ (iss). JWT _can_ include an
 assertion about the intended reader of the JWT, via the _audience_ claim (aud).  The
 JWT specification also provides a way to designate the valid times for a token - the
@@ -162,14 +166,58 @@ It is possible to use these Apigee Edge policies to:
   - [jwt-generate](./proxy-bundles/generate) - an API Proxy bundle that generates JWT
 * Various [helper tools](./tools)
 
+
+## Using the Examples
+
 To use the API proxies, you will need to import and deploy them into an Apigee Edge organization and environment.
+To do that you can use the [importAndDeploy.js](./tools/importAndDeploy.js) tool.
 
-## JWT Policies are Alpha
+```
+node ./tools/importAndDeploy -v -o ${ORG} -e ${ENV} -d ./proxy-bundles/jwt-verify
+node ./tools/importAndDeploy -v -o ${ORG} -e ${ENV} -d ./proxy-bundles/jwt-verify-goog
+node ./tools/importAndDeploy -v -o ${ORG} -e ${ENV} -d ./proxy-bundles/jwt-generate
+```
 
-The JWT policies in Apigee Edge must be enabled for your organization by an Apigee support representative.
+To use Apigee to verify an HS256 JWT, first create a JWT:
 
+```
+node tools/create-token.js  -A HS256 -a urn://Apigee -N -k Secret123
+
+```
+
+This creates an HS256-signed JWT. The secret key used for signing is `Secret123`.
+
+Then verify it:
+```
+curl -i https://${ORG}-${ENV}.apigee.net/jwt-verify/hs256/1 -H "Authorization: Bearer ${JWT}"
+```
+
+The policy is configured to use the same shared secret.
+
+
+To use Apigee to verify an RS256 JWT, first create the RS256-signed JWT:
+
+```
+node tools/create-token.js  -A RS256 -a urn://Apigee -N
+```
+
+The JWT will be printed on the console output. The private key used for signing is stored in the keys subdirectory.
+
+Then verify it:
+```
+curl -i https://${ORG}-${ENV}.apigee.net/jwt-verify/rs256/1 -H "Authorization: Bearer ${JWT}"
+```
+
+You can also try creating JWT with various other settings:
+
+```
+node ./tools/create-token.js -h
+```
+
+## Note: The JWT Policies in Apigee Edge are Currently Beta
+
+The JWT policies in Apigee Edge were first enabled in January 2018.
 If you have JWT enabled, you will see the policies in the policy-chooser palette:
-
 ![JWT Policies in the Palette](./images/check-for-JWT-policies.gif "Policy Chooser")
 
 If you don't see these policies, and you want to try them out, contact Apigee support.
@@ -177,7 +225,7 @@ If you have questions or comments on any of this, please post to [the Apigee com
 
 ## License
 
-This material is Copyright 2017 Google Inc.
+This material is Copyright 2017-2018 Google Inc.
 and is licensed under the [Apache 2.0 License](LICENSE).
 
 The demonstration code here is provided without warranty of any kind.

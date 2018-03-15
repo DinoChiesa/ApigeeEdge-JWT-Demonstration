@@ -1,8 +1,0 @@
-<VerifyJWT name="Verify-JWT-2">
-    <Algorithm>HS256</Algorithm>
-    <Source>inbound.jwt</Source>
-    <SecretKey>
-        <Value ref="private.secretkey"/>
-    </SecretKey>
-    <Audience>urn://Apigee</Audience>
-</VerifyJWT>

@@ -1,0 +1,82 @@
+<ProxyEndpoint name="default">
+  <HTTPProxyConnection>
+    <BasePath>/jwt-verify-goog</BasePath>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+  </PreFlow>
+
+  <PostFlow name="PostFlow"/>
+  <Flows>
+
+    <Flow name="parse + validate a JWT obtained from Google Sign-in">
+      <!--
+         curl -i https://${ORG}-${ENV}.apigee.net/jwt-verify-goog/t1 -H "Authorization: Bearer $JWT"
+      -->
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "GET")</Condition>
+      <Description>Parse / Verify a JWT created by Google Sign-in</Description>
+      <Request>
+        <Step>
+          <Condition>request.header.authorization = null</Condition>
+          <Name>RF-MissingHeader</Name>
+        </Step>
+        <Step>
+          <Name>EV-JWT</Name>
+        </Step>
+        <!-- check cache for the google JWKS -->
+        <Step><Name>CacheLookup-GoogleJwks</Name></Step>
+
+        <Step>
+          <Name>SC-RetrieveGoogleJwks</Name>
+          <Condition>cached.google.jwks = null</Condition>
+        </Step>
+        <Step>
+          <Name>CacheInsert-GoogleJwks</Name>
+          <Condition>cached.google.jwks = null</Condition>
+        </Step>
+
+        <Step>
+          <Name>AV-GoogleJwks</Name>
+          <Condition>cached.google.jwks = null</Condition>
+        </Step>
+
+        <Step><Name>Verify-JWT-1</Name></Step>
+      </Request>
+
+      <Response>
+        <Step><Name>AM-JWT-Parse-Response</Name></Step>
+      </Response>
+    </Flow>
+
+    <Flow name="clear-cache">
+      <!--
+          curl -i https://${ORG}-${ENV}.apigee.net/jwt-verify-goog/clear-cache -d ''
+      -->
+      <Description>Clears the cache</Description>
+      <Request>
+        <Step><Name>CacheInsert-Nothing</Name></Step>
+      </Request>
+      <Response>
+        <Step><Name>AM-NoContent</Name></Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/clear-cache") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name='unknown request'>
+      <Request>
+        <Step><Name>RF-UnknownRequest</Name></Step>
+      </Request>
+      <Response/>
+    </Flow>
+
+  </Flows>
+
+  <!-- catch all route -->
+  <RouteRule name="no-route"/>
+
+</ProxyEndpoint>

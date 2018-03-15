@@ -1,0 +1,13 @@
+<GenerateJWT name="Generate-JWT-HS256-Basic">
+    <Algorithm>HS256</Algorithm>
+    <SecretKey>
+        <Value ref="private.secretkey"/>
+        <Id>optional-unique-identifier-for-secretkey-here</Id>
+    </SecretKey>
+    <Id/> <!-- this tells Apigee to generate a unique identifier -->
+    <Subject ref="request.formparam.subject"/>
+    <Issuer>urn://Apigee-edge-JWT-policy-demonstration</Issuer>
+    <Audience ref="request.formparam.audience"/>
+    <ExpiresIn>60m</ExpiresIn>
+    <OutputVariable>output-jwt</OutputVariable>
+</GenerateJWT>
