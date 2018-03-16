@@ -12,6 +12,12 @@ The code in this repo is not an official Google product, nor is it part of an
 official Google product. It's a demonstration of the JWT policies in the Apigee
 Edge product.
 
+## There's a Screencast
+
+Check the [screencast](https://youtu.be/Ijm7iyDOVFY) accompanying this example code.
+
+[![Screenshot](./images/screenshot-20180316-103908.png)](https://youtu.be/Ijm7iyDOVFY)
+
 ## Usefulness of JWT
 
 JWT are used to encapsulate claims about a person or system in a standard way, so that
@@ -229,6 +235,7 @@ curl -i https://${ORG}-${ENV}.apigee.net/jwt-verify-goog/t1 -H "Authorization: B
 The JWT policies in Apigee Edge were first enabled in January 2018.
 If you have JWT enabled, you will see the policies in the policy-chooser palette:
 ![JWT Policies in the Palette](./images/check-for-JWT-policies.gif "Policy Chooser")
+
 
 If you don't see these policies, and you want to try them out, contact Apigee support.
 If you have questions or comments on any of this, please post to [the Apigee community site](https://community.apigee.com).
