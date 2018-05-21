@@ -267,7 +267,7 @@ The endpoint above is configured to use the public keys published by Google, tha
 curl -i https://${ORG}-${ENV}.apigee.net/jwt-generate/rs256/1 -X POST -d 'subject=Subject&audience=A12345'
 ```
 
-The GenerateJWT policy is configured to use  a self-generated private key. You should see as output, a JSON payload containing a JWT. 
+The GenerateJWT policy is configured to use  a self-generated private key. You should see as output, a JSON payload containing a JWT.
 
 
 To verify the JWT, you can use this:

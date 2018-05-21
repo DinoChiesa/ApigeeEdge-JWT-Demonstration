@@ -2,9 +2,9 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2018-March-16 10:16:01>
+// last saved: <2018-May-21 10:19:32>
 
-var version = '20171106-1714',
+var version = '20180521-1019',
     jwt = require('jsonwebtoken'),
     fs = require('fs'),
     path = require('path'),
@@ -29,11 +29,12 @@ console.log(
     'Node.js ' + process.version + '\n');
 
 var opt = getopt.parse(process.argv.slice(2));
-if (! opt.options.alg) {
+if (! opt.options.token) {
   console.log('You must provide a token.\n');
   getopt.showHelp();
   process.exit(1);
 }
+
 if (! opt.options.alg) { opt.options.alg = defaults.alg; }
 if (supportedAlgorithms.indexOf(opt.options.alg) < 0) {
   console.log('invalid value for algorithm.\n');
@@ -42,40 +43,44 @@ if (supportedAlgorithms.indexOf(opt.options.alg) < 0) {
 }
 var key = (opt.options.alg.startsWith('RS')) ?
   fs.readFileSync(opt.options.key || defaults.key) : opt.options.key ;
-if (! key) {
-  console.log('You must provide a key.\n');
-  getopt.showHelp();
-  process.exit(1);
-}
-var verificationOptions = { algorithms: [opt.options.alg] };
-if (opt.options.sub) { verificationOptions.subject = opt.options.sub; }
-if (opt.options.iss) { verificationOptions.issuer = opt.options.iss; }
-if (opt.options.aud) { verificationOptions.audience = opt.options.aud; }
 
-jwt.verify(opt.options.token, key, verificationOptions, function(e, decoded) {
-  if (e) {
-    console.log('Error while verifying: ' + e);
+if (! key) {
+  console.log('no key, just decoding the token....\n');
+  var decoded = jwt.decode(opt.options.token, {complete: true});
+  console.log(decoded.header);
+  console.log(decoded.payload);
+}
+else {
+  var verificationOptions = { algorithms: [opt.options.alg] };
+  if (opt.options.sub) { verificationOptions.subject = opt.options.sub; }
+  if (opt.options.iss) { verificationOptions.issuer = opt.options.iss; }
+  if (opt.options.aud) { verificationOptions.audience = opt.options.aud; }
+
+  jwt.verify(opt.options.token, key, verificationOptions, function(e, decoded) {
+    if (e) {
+      console.log('Error while verifying: ' + e);
+      decoded = jwt.decode(opt.options.token, {complete:true});
+      console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));
+      process.exit(1);
+    }
+    console.log('\nThat token verifies successfully.\n');
     decoded = jwt.decode(opt.options.token, {complete:true});
     console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));
-    process.exit(1);
-  }
-  console.log('\nThat token verifies successfully.\n');
-  decoded = jwt.decode(opt.options.token, {complete:true});
-  console.log('\ndecoded:\n' + JSON.stringify(decoded, null, 2));
-  if (opt.options.claim) {
-    opt.options.claim.forEach((claimString) => {
-      var parts = claimString.split(re, 2);
-      if (parts.length === 2) {
-        if (decoded[parts[0]] && decoded[parts[0]] === parts[1]) {
+    if (opt.options.claim) {
+      opt.options.claim.forEach((claimString) => {
+        var parts = claimString.split(re, 2);
+        if (parts.length === 2) {
+          if (decoded[parts[0]] && decoded[parts[0]] === parts[1]) {
+          }
+          else {
+            console.log('invalid: claim mismatch: ' + parts[0]);
+            console.log('  ' + parts[1] + ' != ' + decoded[parts[0]] );
+          }
         }
         else {
-          console.log('invalid: claim mismatch: ' + parts[0]);
-          console.log('  ' + parts[1] + ' != ' + decoded[parts[0]] );
+          console.log('non-parseable custom claim: ' + claimString);
         }
-      }
-      else {
-        console.log('non-parseable custom claim: ' + claimString);
-      }
-    });
-  }
-});
+      });
+    }
+  });
+}

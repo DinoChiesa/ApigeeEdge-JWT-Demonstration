@@ -3,6 +3,9 @@
     <Source>inbound.jwt</Source>
     <PublicKey>
       <JWKS ref='cached.google.jwks'/>
+<!--
+      <JWKSUrl cache='60s'>https://whatever.googleapis.com/jwksuri</JWKSUrl>
+-->
     </PublicKey>
     <Issuer>https://accounts.google.com</Issuer>
 </VerifyJWT>

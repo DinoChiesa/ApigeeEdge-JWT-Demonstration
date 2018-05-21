@@ -28,6 +28,9 @@
         <Step>
           <Name>EV-JWT</Name>
         </Step>
+
+
+
         <!-- check cache for the google JWKS -->
         <Step><Name>CacheLookup-GoogleJwks</Name></Step>
 
@@ -45,6 +48,9 @@
           <Condition>cached.google.jwks = null</Condition>
         </Step>
 
+
+
+        <!-- VERIFY -->
         <Step><Name>Verify-JWT-1</Name></Step>
       </Request>
 

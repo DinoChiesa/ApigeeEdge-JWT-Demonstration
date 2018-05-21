@@ -137,6 +137,46 @@
             <Condition>(proxy.pathsuffix MatchesPath "/rs256/3") and (request.verb = "GET")</Condition>
         </Flow>
 
+        <Flow name="HS256-3">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/hs256/1  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with HS256, with a specific key</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Condition>request.queryparam.key = null</Condition>
+                    <Name>RF-MissingKey</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>AM-SecretKeyFromQueryParam</Name>
+                </Step>
+                <Step>
+                    <Name>AM-ShowSecretKey</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-HS256-BasicNoAudience</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                    <Name>AM-Response-HS256-Basic</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/hs256/3") and (request.verb = "GET")</Condition>
+        </Flow>
+
+
         <Flow name="unknown request">
             <Request>
                 <Step>
