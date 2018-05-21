@@ -2,20 +2,22 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2018-March-15 14:39:50>
+// last saved: <2018-May-21 15:51:17>
 
-var jwt = require('jsonwebtoken');
-var fs = require('fs');
-var path = require('path');
-var now = Math.floor(Date.now() / 1000);
-var oneHourInSeconds = 3600;
+const jwt = require('jsonwebtoken'),
+ fs = require('fs'),
+ path = require('path'),
+ uuidv4 = require('uuid/v4'),
+ now = Math.floor(Date.now() / 1000),
+ oneHourInSeconds = 3600;
 var claims = {
       iss: 'http://myapp.com/',
       sub: 'users/user1234',
       aud: 'urn://Apigee',
       roles: ['admin', 'user'],
       exp: now + oneHourInSeconds,
-      nbf: now
+      nbf: now,
+      jti: uuidv4()
     };
 
 var filename = path.resolve(path.dirname(process.mainModule.filename), 'keys', 'private-pkcs8.pem');
