@@ -1,0 +1,7 @@
+<VerifyJWT name="Verify-JWT-HS256-BasicNoAudience">
+    <Algorithm>HS256</Algorithm>
+    <Source>inbound.jwt</Source>
+    <SecretKey>
+        <Value ref="private.secretkey"/>
+    </SecretKey>
+</VerifyJWT>

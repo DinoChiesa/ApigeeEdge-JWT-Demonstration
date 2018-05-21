@@ -1,0 +1,11 @@
+<RaiseFault name="RF-MissingKey">
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="text/plain">Missing key queryparam</Payload>
+            <StatusCode>400</StatusCode>
+            <ReasonPhrase>Bad Request</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
