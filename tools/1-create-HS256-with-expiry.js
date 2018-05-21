@@ -2,10 +2,12 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Sep 11 14:47:45 2017
-// last saved: <2018-March-15 14:32:13>
+// last saved: <2018-May-21 16:10:19>
 
-var jwt = require('jsonwebtoken');
-var expiry = Math.floor(Date.now() / 1000) + 3600; // in seconds
+const jwt = require('jsonwebtoken'),
+      uuidv4 = require('uuid/v4'),
+      expiry = Math.floor(Date.now() / 1000) + 3600,  // in seconds
+      now = Math.floor(Date.now() / 1000);
 var claims = {
       iss: 'http://myapp.com/',
       sub: 'users/user1234',
@@ -13,7 +15,8 @@ var claims = {
       scope: 'read, add',
       roles: ['admin', 'user'],
       exp: expiry,
-      nbf: Math.floor(Date.now() / 1000)
+      nbf: now,
+      jti: uuidv4()
     };
 var secretPassphrase = 'Secret123';
 
