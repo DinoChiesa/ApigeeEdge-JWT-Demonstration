@@ -39,7 +39,7 @@
             </Response>
             <Condition>(proxy.pathsuffix MatchesPath "/rs256/1") and (request.verb = "POST")</Condition>
         </Flow>
-        
+
         <Flow name="RS256-2">
           <!--
               invoke:
@@ -65,7 +65,40 @@
           </Response>
           <Condition>(proxy.pathsuffix MatchesPath "/rs256/2") and (request.verb = "POST")</Condition>
         </Flow>
-        
+
+        <Flow name="RS256-3">
+          <!--
+              invoke:
+              curl -i -X POST https://ORG-ENV.apigee.net/jwt-generate/rs256/3  -d 'subject=Subject&audience=A12345'
+          -->
+          <Description>Generate a JWT with RS256, with sub and aud. Retrieve the privatekey from the KVM.</Description>
+          <Request>
+            <Step>
+              <Condition>request.formparam.subject = null OR request.formparam.audience = null</Condition>
+              <Name>RF-MissingParam</Name>
+            </Step>
+            <Step>
+              <Name>KVM-GetPrivateKey</Name>
+            </Step>
+            <Step>
+              <Name>AM-Diagnostics</Name>
+            </Step>
+            <Step>
+              <Condition>private.privatekey = null</Condition>
+              <Name>RF-NoPrivateKey</Name>
+            </Step>
+            <Step>
+              <Name>Generate-JWT-RS256-AdditionalClaims</Name>
+            </Step>
+          </Request>
+          <Response>
+            <Step>
+              <Name>AM-Response-1</Name>
+            </Step>
+          </Response>
+          <Condition>(proxy.pathsuffix MatchesPath "/rs256/3") and (request.verb = "POST")</Condition>
+        </Flow>
+
         <Flow name="HS256-1">
             <!--
             invoke:

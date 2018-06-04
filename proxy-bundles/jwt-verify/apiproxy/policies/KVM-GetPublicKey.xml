@@ -1,0 +1,9 @@
+<KeyValueMapOperations name='KVM-GetPublicKey' mapIdentifier='non-secrets'>
+  <Scope>environment</Scope>
+  <ExpiryTimeInSecs>15</ExpiryTimeInSecs>
+  <Get assignTo='publickey'>
+    <Key>
+      <Parameter>key1</Parameter>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

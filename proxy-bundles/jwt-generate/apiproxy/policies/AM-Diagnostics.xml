@@ -1,0 +1,12 @@
+<AssignMessage name='AM-Diagnostics'>
+  <DisplayName>AM-Diagnostics</DisplayName>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <!-- assigning the value of a private variable to a public
+         variable. -->
+    <!-- this is included only to allow people to see the variable in
+         the Trace UI.  Do not include this step in a production system. -->
+    <Name>exposed.privatekey</Name>
+    <Ref>private.privatekey</Ref>
+  </AssignVariable>
+</AssignMessage>

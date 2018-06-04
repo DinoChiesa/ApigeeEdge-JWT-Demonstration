@@ -1,0 +1,9 @@
+<KeyValueMapOperations name='KVM-GetPrivateKey' mapIdentifier='secrets'>
+  <Scope>environment</Scope>
+  <ExpiryTimeInSecs>15</ExpiryTimeInSecs>
+  <Get assignTo='private.privatekey'>
+    <Key>
+      <Parameter>key1</Parameter>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

@@ -137,6 +137,38 @@
             <Condition>(proxy.pathsuffix MatchesPath "/rs256/3") and (request.verb = "GET")</Condition>
         </Flow>
 
+        <Flow name="RS256-4">
+            <!--
+            invoke:
+            curl -i https://ORG-ENV.apigee.net/jwt-verify/rs256/3  -H "Authorization: Bearer $jwt"
+            -->
+            <Description>Verify a JWT with RS256, like flow 2, but retrieving public key from KVM.</Description>
+            <Request>
+                <Step>
+                    <Condition>request.header.authorization = null</Condition>
+                    <Name>RF-MissingHeader</Name>
+                </Step>
+                <Step>
+                    <Name>EV-JWT</Name>
+                </Step>
+                <Step>
+                    <Name>KVM-GetPublicKey</Name>
+                </Step>
+                <Step>
+                    <Name>Verify-JWT-RS256-Audience-and-Issuer2</Name>
+                </Step>
+            </Request>
+            <Response>
+                <Step>
+                    <Name>JS-SetNow</Name>
+                </Step>
+                <Step>
+                    <Name>AM-Response-4</Name>
+                </Step>
+            </Response>
+            <Condition>(proxy.pathsuffix MatchesPath "/rs256/4") and (request.verb = "GET")</Condition>
+        </Flow>
+
         <Flow name="HS256-3">
             <!--
             invoke:

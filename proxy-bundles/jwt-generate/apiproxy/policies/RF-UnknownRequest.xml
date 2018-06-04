@@ -9,6 +9,7 @@
     "suggestions" : [
       "POST /jwt-generate/rs256/1",
       "POST /jwt-generate/rs256/2",
+      "POST /jwt-generate/rs256/3",
       "POST /jwt-generate/hs256/1"
     ]
   }

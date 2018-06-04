@@ -24,4 +24,5 @@ openssl pkcs8 -topk8 -inform pem -in private.pem -outform pem -nocrypt -out priv
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ```
 
-After doing this, you will need to update the verify and generate API proxies to reference these new values.
+After doing this, you will need to update the verify and generate API proxies to reference these new values,
+and also load these values into the KVM.

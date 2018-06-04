@@ -1,0 +1,9 @@
+<VerifyJWT name="Verify-JWT-RS256-Audience-and-Issuer2">
+    <Algorithm>RS256</Algorithm>
+    <Source>inbound.jwt</Source>
+    <PublicKey>
+        <Value ref='publickey'/>
+    </PublicKey>
+    <Audience>urn://Apigee</Audience>
+    <Issuer>urn://Issuer</Issuer>
+</VerifyJWT>

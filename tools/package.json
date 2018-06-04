@@ -1,6 +1,6 @@
 {
   "name": "jsonwebtoken-examples",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Some examples of using jsonwebtoken to create JWT",
   "main": "create-token.js",
   "scripts": {
@@ -11,9 +11,9 @@
   "author": "Dino Chiesa <dchiesa@google.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "apigee-edge-js": "^0.2.24",
-    "jsonwebtoken": "^8.0.0",
-    "node-getopt": "^0.2.3",
+    "apigee-edge-js": "^0.3.4",
+    "jsonwebtoken": "^8.2.2",
+    "node-getopt": "^0.2.4",
     "uuid": "^3.2.1"
   },
   "engines": {
