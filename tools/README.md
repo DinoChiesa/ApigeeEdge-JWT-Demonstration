@@ -25,16 +25,23 @@ Do this to upload the private or public key into the KVM, so that it can be used
 
 Example loading the private key into an _encrypted_ map called "secrets":
 ```
-node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -E -M secrets -N key1 -F keys/private-pkcs8.pem
+node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -E -m secrets -N key1 -F keys/private-pkcs8.pem
 ```
 
 Example loading the public key into a map called "non-secrets":
 ```
-node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -M non-secrets -N key1 -F keys/public.pem
+node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -m non-secrets -N key1 -F keys/public.pem
 ```
 
 You need to do this prior to using some of the flows in this demonstration.
 
+If you are using OPDK, then you may need to use the -T option on that command line:
+```
+node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -E -m secrets -N key1 -F keys/private-pkcs8.pem -T
+node ./loadPemIntoKvm.js -v -o $ORG -e $ENV -m non-secrets -N key1 -F keys/public.pem -T
+```
+
+This tells the script to not use the token endpoint when authenticating to the management server. 
 
 
 
