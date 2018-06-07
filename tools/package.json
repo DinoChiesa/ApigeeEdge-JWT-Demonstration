@@ -11,7 +11,7 @@
   "author": "Dino Chiesa <dchiesa@google.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "apigee-edge-js": "^0.3.4",
+    "apigee-edge-js": "^0.3.5",
     "jsonwebtoken": "^8.2.2",
     "node-getopt": "^0.2.4",
     "uuid": "^3.2.1"
