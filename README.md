@@ -21,7 +21,8 @@ Check the [screencast](https://youtu.be/Ijm7iyDOVFY) accompanying this example c
 ## Usefulness of JWT
 
 JWT are used to encapsulate claims about a person or system in a standard way, so that
-the claims can be transmitted to a cooperating system that can verify and rely on those claims.
+the claims can be transmitted to a cooperating system that can verify and rely on those
+claims.
 
 A common example would be an identity provider - that is, a system that can authenticate
 users. When a user provides the correct authentication, the identity provider may issue
@@ -32,34 +33,37 @@ verified by any other system that has access to the shared secret key.
 
 Let's call the system that examines and verifies a JWT, a "relying party". If the
 relying party trusts the identity provider - in other words trusts that the public key
-belongs to the IdP, or that the secret key has not been compromised - then the RP can
-rely on the claims about the user, contained within the JWT. The RP can then make
-decisions based on the value of those claims - decisions regarding authorization, request
-routing, and so on.
+belongs to the IdP, or that the secret key that the two parties share has not been
+compromised - then the RP can rely on the claims about the user, contained within the
+JWT. The RP can then make decisions based on the value of those claims - decisions
+regarding authorization, request routing, and so on.
 
 ## JWT One Level Deeper
 
-"A claim" is nothing more than an asserted statement. For example, "the sky is
-clear" is a claim. A JWT wraps up a set of one or more claims, with a digital
-signature, a unique hash of the payload that can be used to verify that the
-payload (the set of claims) has not changed since they were initially issued.
+"A claim" is nothing more than an asserted statement. For example, "the sky is clear" is
+a claim. Usually a JWT wraps up a set of one or more claims _about a particular
+subject_ (like a person), and signs that payload with a digital signature. The digsig
+is a unique keyed hash of the payload that can be used to verify that the set of claims
+has not changed since they were initially issued, and that the claims wwere asserted by
+a particular party - the holder of the signing key.
 
 In JWT, there are some "standard" claim names with well-known meanings. The system or
 participant that creates the JWT is called the _issuer_ (iss). JWT _can_ include an
-assertion about the intended reader of the JWT, via the _audience_ claim (aud).  The
-JWT specification also provides a way to designate the valid times for a token - the
-issued-at time (iat), the not-before time (nbf), and the expiry time (exp). The times
-are all expressed in seconds-since-epoch.
+assertion about the intended reader of the JWT, via the _audience_ claim (aud). The
+_subject_ (sub) claim denotes the subject of other claims in the JWT. For example
+subject might contain a userid (A12345) and the JWT may also another claim containing the email
+address and a third claim containing set of roles for that userid.
 
-Typically, JWT are issued about a person or system, known as "the subject"
-(sub). Accordingly, claims are most often about systems or people, rather than the
-weather. For example, a typical claim as stated in English might be "the userid is
-012345".
+The JWT specification also provides a way to designate the valid times for a token - the
+not-before time (nbf), and the expiry time (exp). The times are expressed in
+seconds-since-epoch.  There is also an informational issued-at time (iat), which is
+expressed in the same format, but is not required to be used for validating a JWT.
 
-All the "standard claims" such as sub, aud, exp, as well as custom claims like "userid"
-are optional. Each system that generates JWT can choose which claims to include; each
-system that verifies JWT can include logic to check for specific values for specific
-claims.
+All the "standard claims" such as iss, sub, aud, exp, nbf, iat as well as custom claims
+like "userid" are _optional_. Each system that generates JWT can choose which claims to
+include; the JWT can include zero or more standard claims and zero or more custom
+claims. A system that verifies JWT can include logic to check for specific values for
+specific claims. Systems are free to ignore claims they don't care about.
 
 ## The Construction of a JWT
 
@@ -105,8 +109,7 @@ The creator of a JWT computes the digital signature of the signing base, and the
 base64-encodes it, then dot-concatenates the signing base with _that_ . The result is
 the JWT.  `base64(header).base64(payload).base64(signature)`.
 
-
-This is what an actual JWT looks like:
+After all of that, this is what an actual JWT looks like:
 
 ```
 eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1MTAwMjAzMDAsImlhdCI6MTUxMDAyMDMwMCwic3ViIjoiU3ViamVjdCIsImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIiwiZXhwIjoxNTEwMDIzOTAwLCJjdXN0b21DbGFpbTEiOiJ2YWx1ZTEifQ.akW3MHTRAnWIPdrD14XYcQKFxDqQ7ztqqS1iLUZfQcQJusi805JhlhBmYZ7axQn2DFBvRsk-i_aCwBDiCzOHGIxufyreMUi7dlkVX6aby8shOIG1jwozes9xGR0pe7ekMD7a39FHKntIXfZEZXE0fxFTIjeG0F7Ui8gL8v8pMIX_SRmK6uEPv0gUStQI-x1nJQM7EtOPs4ZnnlA1hA7HAMEZjkv64yZqbEKXC3d_BFEV3-XhlQR8YG6kJyKoPsgxWMN1JeEUn7fn0YM4V0B8bTepVPUYSViqzz6C5vPvDrk0-PiqGGIry9XrxTXTgNvToL8cOFp2c4ZHyONZqsIk8Q
